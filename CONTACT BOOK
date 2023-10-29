@@ -1,0 +1,87 @@
+from tkinter import *
+from tkinter import messagebox
+
+# Initializing the window
+root = Tk()
+root.geometry('700x550')
+root.config(bg = '#d3f3f5')
+root.title('PythonGeeks Contact Book')
+root.resizable(0,0)
+
+contactlist = [
+    ['Siddharth Nigam','369854712'],
+    ['Gaurav Patil', '521155222'],
+    ['Abhishek Nikam', '78945614'],
+    ['Sakshi Gaikwad', '58745246'],
+    ['Mohit Paul', '5846975'],
+    ['Karan Patel', '5647892'],
+    ['Sam Sharma', '89685320'],
+    ['John Maheshwari', '98564785'],
+    ['Ganesh Pawar','85967412']
+]
+
+Name = StringVar()
+Number = StringVar()
+
+# Function to add new contact and edit existing contact
+def add_contact():
+    contactlist.append([Name.get(), Number.get()])
+    Name.set('')
+    Number.set('')
+    
+def edit_contact():
+    contactlist[int(select.curselection()[0])] = [Name.get(), Number.get()]
+    Name.set('')
+    Number.set('')
+    
+# Function to delete and view contact
+def delete_contact():
+    del contactlist[int(select.curselection()[0])]
+    
+def view_contact():
+    NAME, PHONE = contactlist[int(select.curselection()[0])]
+    Name.set(NAME)
+    Number.set(PHONE)
+
+# Create frame
+frame1 = Frame(root)
+frame1.pack(side=LEFT)
+
+# Function to get select value
+def get_select_value(event):
+    value=str(select.get(select.curselection()))
+    NAME, PHONE = contactlist[int(select.curselection()[0])]
+    Name.set(NAME)
+    Number.set(PHONE)
+
+# Define buttons labels and entry widget
+label1 = Label(frame1,text='Name:',font=('Arial',14),bg='#d3f3f5')
+label1.pack(pady=10)
+entry1 = Entry(frame1,textvariable=Name,font=('Arial',14))
+entry1.pack(pady=10)
+
+label2 = Label(frame1,text='Phone:',font=('Arial',14),bg='#d3f3f5')
+label2.pack(pady=10)
+entry2 = Entry(frame1,textvariable=Number,font=('Arial',14))
+entry2.pack(pady=10)
+
+add_button = Button(frame1,text='Add Contact',font=('Arial',14),command=add_contact)
+add_button.pack(pady=10)
+
+edit_button = Button(frame1,text='Edit Contact',font=('Arial',14),command=edit_contact)
+edit_button.pack(pady=10)
+
+delete_button = Button(frame1,text='Delete Contact',font=('Arial',14),command=delete_contact)
+delete_button.pack(pady=10)
+
+view_button = Button(frame1,text='View Contact',font=('Arial',14),command=view_contact)
+view_button.pack(pady=10)
+
+select = Listbox(root, width=50, height=20, font=('Arial', 12))
+select.bind('<<ListboxSelect>>', get_select_value)
+select.pack(side=LEFT, fill=BOTH, expand=True)
+
+for item in contactlist:
+    select.insert(END, item[0])
+
+root.mainloop()
